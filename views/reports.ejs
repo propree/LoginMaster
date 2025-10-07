@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><title>Reports</title></head>
+<body>
+  <h2>Reports</h2>
+  <a href="/dashboard">Back</a>
+
+  <form action="/reports" method="POST">
+    <select name="userId" onchange="this.form.submit()">
+      <option value="">Select User</option>
+      <% users.forEach(u => { %>
+        <option value="<%= u._id %>" <%= selectedUser == u._id ? 'selected' : '' %>><%= u.name %></option>
+      <% }) %>
+    </select>
+  </form>
+
+  <ul>
+    <% reports.forEach(r => { %>
+      <li><%= r.date.toDateString() %> - <%= r.details %></li>
+    <% }) %>
+  </ul>
+
+  <% if(selectedUser){ %>
+  <a href="/reports/export/pdf/<%= selectedUser %>">Download PDF</a>
+  <a href="/reports/export/excel/<%= selectedUser %>">Download Excel</a>
+  <% } %>
+</body>
+</html>

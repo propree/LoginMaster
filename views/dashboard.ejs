@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Dashboard</title></head>
+<body>
+  <h2>Dashboard</h2>
+  <a href="/logout">Logout</a> | <a href="/reports">Reports</a>
+
+  <h3>Add User</h3>
+  <form action="/users/add" method="POST">
+    <input name="name" placeholder="Name" required>
+    <input name="email" placeholder="Email" required>
+    <input name="password" placeholder="Password" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <h3>All Users</h3>
+  <ul>
+    <% if(users){ users.forEach(u => { %>
+      <li>
+        <%= u.name %> (<%= u.email %>)
+        <a href="/users/delete/<%= u._id %>">Delete</a>
+      </li>
+    <% }) } %>
+  </ul>
+</body>
+</html>
