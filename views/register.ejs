@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Register</title>
+  <title >
+    Register
+  </title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #fafafa; }
-    form { max-width: 400px; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    input, button { width: 100%; padding: 10px; margin: 10px 0; }
+    body { font-family: Arial; padding: 20px;  background: #f5f2f0; }
+    form { max-width: 400px; margin: 30px auto; background: #f4eae4;; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input, button { width: 90%; padding: 10px; margin: 10px auto; display: block;  }
     .error { color: red; margin-bottom: 10px; }
   </style>
 </head>
@@ -13,7 +15,7 @@
   <%- include('partials/header', { isAuthenticated }); %>
 
   <form action="/register" method="POST">
-    <h2>Register</h2>
+   <h1 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Register</h1>
 
     <% if (error) { %>
       <p class="error"><%= error %></p>

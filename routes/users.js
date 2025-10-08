@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/Users');
 const bcrypt = require('bcryptjs');
 
+
 function isAuth(req, res, next) {
   if(req.session.userId) return next();
   res.redirect('/login');
@@ -20,6 +21,18 @@ router.post('/add', isAuth, async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
   await User.create({ name, email, password: hash });
   res.redirect('/dashboard');
+});
+// Show edit form
+router.get('/edit/:id', isAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.redirect('/dashboard');
+
+    res.render('edit', { user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
 
 // Edit user

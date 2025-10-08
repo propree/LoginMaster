@@ -2,9 +2,14 @@
 <html>
 <head><title>Reports</title></head>
 <body>
-  <h2>Reports</h2>
-  <a href="/dashboard">Back</a>
+  <h2 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Reports</h2>
+  <div style="text-align: center; margin-top: 20px;">
+  <a href="/dashboard" style="padding: 8px 16px; background: #eee; color: #333; text-decoration: none; border: 1px solid #ccc; border-radius: 4px;">
+    Back
+  </a>
+</div>
 
+<div style="align-items: center;">
   <form action="/reports" method="POST">
     <select name="userId" onchange="this.form.submit()">
       <option value="">Select User</option>
@@ -13,7 +18,7 @@
       <% }) %>
     </select>
   </form>
-
+</div>
   <ul>
     <% reports.forEach(r => { %>
       <li><%= r.date.toDateString() %> - <%= r.details %></li>

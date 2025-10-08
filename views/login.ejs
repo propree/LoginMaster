@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login</title>
-  </head>
-  <body>
-    <h2>Login</h2>
+<head>
+  <title>Login</title>
+  <style>
+   body { font-family: Arial; padding: 20px;  background: #f5f2f0; }
+    form { max-width: 400px; margin: 30px auto; background: #f4eae4d6;; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input, button { width: 90%; padding: 10px; margin: 10px auto; display: block;  }
+    .error { color: red; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- Include header partial if needed -->
+  <%- include('partials/header', { isAuthenticated }); %>
+
+  <form action="/login" method="POST">
+    <h1 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Login</h1>
+
     <% if (error) { %>
-    <p style="color: red"><%= error %></p>
+      <p class="error"><%= error %></p>
     <% } %>
-    <form action="/login" method="POST">
-      <input type="email" name="email" placeholder="Email" required /><br />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-      /><br />
-      <div><%- captcha %></div>
-      <input
-        type="text"
-        name="captcha"
-        placeholder="Enter Captcha"
-        required
-      /><br />
-      <button type="submit">Login</button>
-    </form>
-  </body>
+
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+
+    <!-- Captcha block -->
+    <div><%- captcha %></div>
+    <input type="text" name="captcha" placeholder="Enter Captcha" required />
+
+    <button type="submit">Login</button>
+
+    <p>Don't have an account? <a href="/register">Register</a></p>
+  </form>
+
+</body>
 </html>

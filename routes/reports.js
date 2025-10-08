@@ -54,20 +54,45 @@ router.get('/export/excel/:userId', isAuth, async (req, res) => {
 });
 
 // Export PDF
-router.get('/export/pdf/:userId', isAuth, async (req, res) => {
-  const reports = await Report.find({ userId: req.params.userId }).populate('userId', 'name email');
-  const doc = new PDFDocument();
-  res.setHeader('Content-Disposition', 'attachment; filename=reports.pdf');
-  doc.pipe(res);
 
-  doc.fontSize(18).text('Reports', { align: 'center' }).moveDown();
-  reports.forEach(r => {
-    doc.fontSize(12).text(`User: ${r.userId.name} (${r.userId.email})`);
-    doc.text(`Date: ${r.date.toISOString().slice(0,10)}`);
-    doc.text(`Details: ${r.details}`);
-    doc.moveDown();
-  });
-  doc.end();
+router.get('/export/pdf/:userId', isAuth, async (req, res) => {
+  try {
+    const reports = await Report.find({ userId: req.params.userId }).populate('userId', 'name email');
+
+    const doc = new PDFDocument();
+    res.setHeader('Content-Disposition', 'attachment; filename=reports.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(18).text('Reports', { align: 'center' }).moveDown();
+
+    if (!reports.length) {
+      doc.fontSize(12).text('No reports found for this user.Lorem ipsum dolor sit amet.Consectetur adipiscing elit. Sed do eiusmod tempor incididunt.');
+    } else {
+      reports.forEach((r, i) => {
+        doc.fontSize(14).text(`Report #${i + 1}`, { underline: true }).moveDown(0.5);
+
+        doc.fontSize(12).text(`User: ${r.userId.name} (${r.userId.email})`);
+        doc.text(`Date: ${r.date.toISOString().slice(0,10)}`);
+        doc.text(`Details: ${r.details || 'No details provided.'}`);
+        
+        // Add some dummy lorem ipsum list (static example)
+        doc.moveDown().fontSize(12).text('Items:', { underline: true });
+        doc.list([
+          'Lorem ipsum dolor sit amet.',
+          'Consectetur adipiscing elit.',
+          'Sed do eiusmod tempor incididunt.'
+        ]);
+
+        doc.moveDown();
+      });
+    }
+
+    doc.end();
+  } catch (err) {
+    console.error('PDF export failed:', err);
+    res.status(500).send('Error generating PDF');
+  }
 });
+
 
 module.exports = router;

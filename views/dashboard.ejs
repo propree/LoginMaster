@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head><title>Dashboard</title></head>
+<head><title>Dashboard</title>
+ <style>
+    body { font-family: Arial; padding: 20px;  background: #ffffff; }
+    form { max-width: 400px; margin: 30px auto; background: #ebe8e6;; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input, button { width: 90%; padding: 10px; margin: 10px auto; display: block;  }
+    .error { color: red; margin-bottom: 10px; }
+  </style></head>
 <body>
-  <h2>Dashboard</h2>
-  <a href="/logout">Logout</a> | <a href="/reports">Reports</a>
+  
+  <h2 style="text-align: center;font-family: Arial, Helvetica, sans-serif;">Dashboard</h2>
+  <div style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
+<a  href="/logout">Logout</a> | <a href="/reports">Reports</a>
+  </div>
+  
 
-  <h3>Add User</h3>
+  <h3 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Add User</h3>
   <form action="/users/add" method="POST">
     <input name="name" placeholder="Name" required>
     <input name="email" placeholder="Email" required>
     <input name="password" placeholder="Password" required>
     <button type="submit">Add</button>
   </form>
+<h3 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">All Users</h3>
 
-  <h3>All Users</h3>
-  <ul>
-    <% if(users){ users.forEach(u => { %>
-      <li>
-        <%= u.name %> (<%= u.email %>)
-        <a href="/users/delete/<%= u._id %>">Delete</a>
-      </li>
-    <% }) } %>
-  </ul>
+<table border="1" cellpadding="10" cellspacing="0" style="width: 80%; margin: 20px auto; border-collapse: collapse; border-radius: 5px; text-align: left; font-family: Arial;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Remove</th>
+      <th>Modify</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (users && users.length > 0) { %>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><a href="/users/edit/<%= u._id %>" style="color: rgb(17, 255, 0);">Edit</a></td>
+          <td><a href="/users/delete/<%= u._id %>" style="color: red;">Delete</a></td>
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr>
+        <td colspan="3" style="text-align: center;">No users found.</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
 </body>
 </html>
